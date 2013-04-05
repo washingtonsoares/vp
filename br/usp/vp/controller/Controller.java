@@ -4,19 +4,14 @@ import java.io.IOException;
 
 import matrix.AbstractMatrix;
 import matrix.MatrixFactory;
-import projection.technique.Projection;
-import projection.technique.idmap.IDMAPProjection;
-import br.usp.vp.distance.DimensionsDistanceMatrix;
-import br.usp.vp.distance.DimensionsDistanceMatrixFactory;
 import br.usp.vp.matrix.DataMatrix;
 import br.usp.vp.model.projection.dual.DualProjections;
+import br.usp.vp.model.projection.dual.DualProjectionsFactory;
+import br.usp.vp.model.tree.DualProjectionsVertex;
 import br.usp.vp.model.tree.InteractionsTree;
-import br.usp.vp.projection.Stress;
 import br.usp.vp.view.misc.ToolBar;
 import br.usp.vp.view.projection.dual.DualProjectionsPanel;
 import br.usp.vp.view.tree.InteractionsTreePanel;
-import distance.DistanceMatrix;
-import distance.dissimilarity.Euclidean;
 
 public class Controller {
 
@@ -54,34 +49,21 @@ public class Controller {
 	
 	public static void init() throws IOException {
 
-		// Create Distance Matrices
-		DistanceMatrix elemDmat = new DistanceMatrix(dataMatrix, new Euclidean());
-		DimensionsDistanceMatrix dimDmat = DimensionsDistanceMatrixFactory
-				.getInstance(dataMatrix, new Euclidean());
-
-		// Project data
-		Projection projTech = new IDMAPProjection();
-		AbstractMatrix itemsProj = projTech.project(elemDmat);
-		AbstractMatrix dimsProj = projTech.project(dimDmat);
-
-		// Calculate Stress by Row
-		float[] elemStress = Stress.getStressByRow(elemDmat, itemsProj);
-		float[] dimStress = Stress.getStressByRow(dimDmat, dimsProj);
-		
-		// Set scalar as stress
-		itemsProj.setKlass(elemStress);
-		dimsProj.setKlass(dimStress);
-		
-		dualProjections = new DualProjections(itemsProj, dimsProj);
+		dualProjections = DualProjectionsFactory.getInstance(dataMatrix);
 		dualPanel.setProjections(dualProjections);
 		
 		tree = new InteractionsTree();
 		treePanel.setTree(tree);
-		tree.addNewVertex(null);
+		DualProjectionsVertex newVertex = new DualProjectionsVertex(
+				tree.getGraph().getNumVertices() + 1, dualProjections);
+		tree.addNewVertex(newVertex);
 	}
 	
-	public static void setTreeCurrentVertex(Integer value) {
+	public static void changeContextTo(Integer value) {
 		
-		tree.setCurrentVertex(tree.getVertexAt(value - 1), true);
+		DualProjectionsVertex newCurrent = (DualProjectionsVertex) tree.getVertexAt(value - 1);
+		
+		dualPanel.setProjections(newCurrent.getDualProjections());
+		tree.setCurrentVertex(newCurrent, true);
 	}
 }

@@ -136,7 +136,7 @@ public class InteractionsTreePanel extends JPanel {
 
 							Integer value = (Integer) 
 									component.getGraph().getModel().getValue(cell);
-							Controller.setTreeCurrentVertex(value);
+							Controller.changeContextTo(value);
 						}
 					}
 				}

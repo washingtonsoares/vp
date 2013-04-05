@@ -16,7 +16,7 @@ public class Graph extends mxGraph {
 		return numVertices;
 	}
 
-	public void addEdge(Vertex source, Vertex target) {
+	public void addEdge(AbstractVertex source, AbstractVertex target) {
 		
 		this.insertEdge(this.getDefaultParent(), null, null, source, target);
 	}

@@ -7,12 +7,12 @@ public class InteractionsTree {
 
 	private Graph graph;
 
-	private ArrayList<Vertex> vertices;
-	private Vertex currentVertex;
+	private ArrayList<AbstractVertex> vertices;
+	private AbstractVertex currentVertex;
 
 	public InteractionsTree() {
 
-		vertices = new ArrayList<Vertex>();
+		vertices = new ArrayList<AbstractVertex>();
 		
 		createGraph();
 	}
@@ -26,17 +26,16 @@ public class InteractionsTree {
 		return graph;
 	}
 
-	public Vertex getVertexAt(Integer index) {
+	public AbstractVertex getVertexAt(Integer index) {
 		
 		return vertices.get(index);
 	}
 
-	public void addNewVertex(Object thumbnail) {
+	public void addNewVertex(AbstractVertex newVertex) {
 
 		graph.getModel().beginUpdate();
 		try
 		{
-			Vertex newVertex = new Vertex(graph.getNumVertices() + 1);
 			graph.addVertex(newVertex);
 			vertices.add(newVertex);
 
@@ -52,7 +51,7 @@ public class InteractionsTree {
 		}
 	}
 
-	public void setCurrentVertex(Vertex vertex, boolean update) {
+	public void setCurrentVertex(AbstractVertex vertex, boolean update) {
 		
 		if (currentVertex == null) {
 			
@@ -60,13 +59,13 @@ public class InteractionsTree {
 		} 
 		else {
 					
-			graph.setCellStyle(Vertex.DEFAULT_STYLE, new Object[]{currentVertex});
+			graph.setCellStyle(DualProjectionsVertex.DEFAULT_STYLE, new Object[]{currentVertex});
 			this.currentVertex = vertex;
 		}
 		
 		if (update) {
 			
-			graph.setCellStyle(Vertex.CURRENT_STYLE, new Object[]{vertex});
+			graph.setCellStyle(DualProjectionsVertex.CURRENT_STYLE, new Object[]{vertex});
 		}
 	}
 }
