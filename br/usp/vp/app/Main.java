@@ -9,10 +9,11 @@ public class Main {
 
 		MainView view = new MainView();
 		
-		new Controller(view.getToolBar(),view.getDualPanel(), view.getTreePanel());
+		new Controller();
 		Controller.loadData(DataSets.iris);
-		Controller.init();
+		Controller.init(view.getTopPanel(),view.getMiddlePanel(), view.getBottomPanel());
 		
+//		view.setExtendedState(view.getExtendedState()|JFrame.MAXIMIZED_BOTH);
 		view.setVisible(true);
 	}
 }

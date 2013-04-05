@@ -20,6 +20,8 @@ public class DualProjectionsPanel extends JPanel {
 
 	public DualProjectionsPanel() {
 		
+		super();
+		
 		this.setLayout(new GridLayout(1,2));
 	}
 	
@@ -34,6 +36,8 @@ public class DualProjectionsPanel extends JPanel {
 		
 		add(itemsPanel);
 		add(dimsPanel);
+		
+		this.revalidate();
 	}
 	
 	private RichProjectionPanel createProjectionPanel(ProjectionModel projModel, 

@@ -31,6 +31,10 @@ public class InteractionsTree {
 		return vertices.get(index);
 	}
 
+	public AbstractVertex getCurrentVertex() {
+		return currentVertex;
+	}
+	
 	public void addNewVertex(AbstractVertex newVertex) {
 
 		graph.getModel().beginUpdate();
@@ -59,13 +63,13 @@ public class InteractionsTree {
 		} 
 		else {
 					
-			graph.setCellStyle(DualProjectionsVertex.DEFAULT_STYLE, new Object[]{currentVertex});
+			graph.setCellStyle(DPVertex.DEFAULT_STYLE, new Object[]{currentVertex});
 			this.currentVertex = vertex;
 		}
 		
 		if (update) {
 			
-			graph.setCellStyle(DualProjectionsVertex.CURRENT_STYLE, new Object[]{vertex});
+			graph.setCellStyle(DPVertex.CURRENT_STYLE, new Object[]{vertex});
 		}
 	}
 }

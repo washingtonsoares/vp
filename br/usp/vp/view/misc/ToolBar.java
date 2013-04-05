@@ -18,6 +18,8 @@ public class ToolBar extends JPanel {
 	private JToolBar toolBar;
 	
 	public ToolBar() {
+		
+		super();
 
 		this.setLayout(new FlowLayout(FlowLayout.LEADING));
 		
@@ -43,7 +45,7 @@ public class ToolBar extends JPanel {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				
-//				Controller.addVertexToTree();
+				Controller.reprojectItems();
 			}
 		});
 

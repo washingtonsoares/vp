@@ -13,8 +13,7 @@ import distance.dissimilarity.Euclidean;
 
 public class DualProjectionsFactory {
 
-	public static DualProjections getInstance(AbstractMatrix dataMatrix) 
-			throws IOException {
+	public static DualProjections getInstance(AbstractMatrix dataMatrix) {
 
 		// Create Distance Matrices
 		DistanceMatrix elemDmat = new DistanceMatrix(dataMatrix, new Euclidean());
@@ -26,14 +25,19 @@ public class DualProjectionsFactory {
 		AbstractMatrix itemsProj = projTech.project(elemDmat);
 		AbstractMatrix dimsProj = projTech.project(dimDmat);
 
-		// Calculate Stress by Row
-		float[] elemStress = Stress.getStressByRow(elemDmat, itemsProj);
-		float[] dimStress = Stress.getStressByRow(dimDmat, dimsProj);
-
+		try {
+			// Calculate Stress by Row
+			float[] elemStress = Stress.getStressByRow(elemDmat, itemsProj);
+			float[] dimStress = Stress.getStressByRow(dimDmat, dimsProj);
+			itemsProj.setKlass(elemStress);
+			dimsProj.setKlass(dimStress);
+			
+		}catch (IOException e) {
+			
+			System.err.println("ERROR: " + e.getMessage());
+		}
 		// Set scalar as stress
-		itemsProj.setKlass(elemStress);
-		dimsProj.setKlass(dimStress);
-		
+
 		return new DualProjections(itemsProj, dimsProj);
 	}
 }

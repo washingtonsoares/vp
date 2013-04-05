@@ -32,8 +32,8 @@ public class GenericPanel extends JPanel implements ModelViewer {
 	private ArrayList<AbstractCoordinator> coordinators;
 	
 	protected Rectangle viewport;
-	private BufferedImage image;
-	private boolean highQuality;
+	protected BufferedImage image;
+	protected boolean highQuality;
 	
 	public GenericPanel(AbstractModel model) {
 		

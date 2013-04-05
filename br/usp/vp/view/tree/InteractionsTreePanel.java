@@ -3,168 +3,86 @@ package br.usp.vp.view.tree;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
+import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
-import br.usp.vp.controller.Controller;
+import br.usp.vp.model.tree.AbstractVertex;
 import br.usp.vp.model.tree.InteractionsTree;
 
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.model.mxCell;
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.swing.util.mxMorphing;
-import com.mxgraph.util.mxEvent;
-import com.mxgraph.util.mxEventObject;
-import com.mxgraph.util.mxEventSource.mxIEventListener;
-import com.mxgraph.util.mxRectangle;
 
-public class InteractionsTreePanel extends JPanel {
+public class InteractionsTreePanel extends JPanel implements MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final int fontSize = 12;
 	private static final int gap = 15;
 
-	private InteractionsTree tree;
-
-	private mxGraphComponent component;
-	private mxHierarchicalLayout layout;
+	private static final int X_PAD = 50;
+	private static final int Y_PAD = 0;
+	
+	private TreeComponent component;
 	private JLabel titleLabel;
 
-	public InteractionsTreePanel() {
+	private JLayeredPane layeredPane;
 
-		this.setLayout(new GridLayout(1,1));
+	private JPanel vertexThumbnail;
+	private JPanel edgeThumbnail;
+
+	private boolean stillOnVertex = false;
+	
+	public InteractionsTreePanel(InteractionsTree tree) {
+
+		super();
+
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.setBorder(new EmptyBorder(gap, gap, gap, gap));
 
+		// Title Label
 		titleLabel = new JLabel("Interactions Tree");
 		titleLabel.setOpaque(true);
 		titleLabel.setFont(new Font(null, Font.BOLD, fontSize));
-	}
-	
-	public void setTree(InteractionsTree tree) {
 
-		this.tree = tree;
-		
-		createComponent();
-		createLayout();
+		// Tree Component
+		component = new TreeComponent(tree);
 
-		this.add(component);
-		
-		this.addComponentListener(new ComponentAdapter() {
+		// Thumb nails
+		vertexThumbnail = createThumbnail();
+		edgeThumbnail = createThumbnail();
 
-			@Override
-			public void componentResized(ComponentEvent arg0) {
+		// Compose Layered Panel
+		layeredPane = new JLayeredPane();
+		component.getGraphControl().addMouseMotionListener(this); 
+		this.addMouseMotionListener(this); 
 
-				layoutGraph();
-			}}
-		);
-		setBackground(getBackground());
-	}
+		JViewport temp = component.getViewport();
+		temp.setBounds(10, 20, 700, 300);
+		layeredPane.add(temp, new Integer(0));
 
-	private void createLayout() {
+		layeredPane.add(vertexThumbnail, new Integer(1));
+		layeredPane.add(edgeThumbnail, new Integer(1));
 
-		layout = new mxHierarchicalLayout(component.getGraph(),
-				SwingConstants.WEST);
+		this.add(layeredPane);
 	}
 
-	public void layoutGraph() {
-
-		component.getGraph().getModel().beginUpdate();
-		try {
-			layout.execute(component.getGraph().getDefaultParent());
-		} finally {
-
-			component.getGraph().getModel().endUpdate();
-			resizeComponent();
-		}
+	public TreeComponent getComponent() {
+		return component;
 	}
 
-	public void morphingLayoutGraph() {
+	private JPanel createThumbnail() {
 
-		component.getGraph().getModel().beginUpdate();
-		try {
-			layout.execute(component.getGraph().getDefaultParent());
-		} finally {
-			mxMorphing morph = new mxMorphing(component);
+		JPanel thumb = new JPanel();
+		thumb.setLayout(new GridLayout(1,1));
+		thumb.setVisible(false);
+		thumb.setBounds(15, 15, Thumbnail.WIDTH, Thumbnail.HEIGHT);
 
-			morph.addListener(mxEvent.DONE, new mxIEventListener() {
-
-				@Override
-				public void invoke(Object arg0, mxEventObject arg1) {
-
-					resizeComponent();
-				}
-			});
-			morph.startAnimation();
-			component.getGraph().getModel().endUpdate();
-		}
-	}
-
-	private void createComponent() {
-
-		component = new mxGraphComponent(tree.getGraph());
-		
-		component.getViewport().setOpaque(true);
-		component.setEnabled(false);
-		component.setBorder(null);
-
-		component.setVerticalScrollBarPolicy(
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		component.setHorizontalScrollBarPolicy(
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-		component.getGraphControl().addMouseListener(new MouseAdapter()
-		{
-
-			public void mouseReleased(MouseEvent e)
-			{
-				Object cell = component.getCellAt(e.getX(), e.getY());
-
-				if (cell != null)
-				{
-					if (cell instanceof mxCell) {
-
-						if (((mxCell) cell).isVertex()) {
-
-							Integer value = (Integer) 
-									component.getGraph().getModel().getValue(cell);
-							Controller.changeContextTo(value);
-						}
-					}
-				}
-			}
-		});
-	}
-
-	private void resizeComponent() {
-
-		mxRectangle actualBounds = component.getGraph().getGraphBounds();
-		Rectangle visibleBounds = component.getViewport().getVisibleRect();
-
-		float widthRatio = (float) (visibleBounds.getWidth() / 
-				actualBounds.getWidth());
-
-		float heigthRatio = (float) (visibleBounds.getHeight() / 
-				actualBounds.getHeight());
-
-		if (widthRatio > 1 && heigthRatio > 1) {
-
-			component.zoomActual();
-		}
-		else {
-
-			float factor = Math.min(widthRatio, heigthRatio);
-			factor = factor * 0.95f;
-			component.zoom(factor);
-		}
+		return thumb;
 	}
 
 	@Override
@@ -179,6 +97,60 @@ public class InteractionsTreePanel extends JPanel {
 		if (this.titleLabel != null) {
 
 			this.titleLabel.setBackground(color);
+		}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+
+		Object cell = component.getCellAt(e.getX(), e.getY());
+
+		boolean notOverVertex = true;
+		boolean notOverEdge = true;
+		
+		if (cell != null) {
+
+			// if is cell
+			if (cell instanceof mxCell) {
+
+				if (((mxCell) cell).isVertex()) {
+					
+					notOverVertex = false;
+
+					if (!stillOnVertex) {
+
+						stillOnVertex = true;
+
+						int x = (int) ((mxCell) cell).getGeometry().getX();
+
+						Thumbnail vertexThumb = ((AbstractVertex) cell).getThumbnail();
+
+						vertexThumbnail.removeAll();
+						vertexThumbnail.add(vertexThumb);
+						vertexThumbnail.setLocation(x + X_PAD, Y_PAD);
+						vertexThumbnail.setVisible(true);
+						vertexThumbnail.revalidate();
+					}
+				}
+
+				if (((mxCell) cell).isEdge()) {
+
+					notOverEdge = false;
+					// TODO: do something
+				}
+			} 
+		} 
+		if (notOverVertex) {
+			
+			vertexThumbnail.setVisible(false);
+			stillOnVertex = false;
+		}
+		if (notOverEdge) {
+			
+			edgeThumbnail.setVisible(false);
 		}
 	}
 }

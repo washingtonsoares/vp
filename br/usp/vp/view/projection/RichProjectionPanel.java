@@ -2,11 +2,13 @@ package br.usp.vp.view.projection;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 
+import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
 
 import projection.model.ProjectionModel;
 import visualizationbasics.color.ColorScalePanel;
@@ -21,6 +23,7 @@ public class RichProjectionPanel extends JPanel {
 	private ProjectionPanel projectionPanel;
 	private ColorScalePanel colorscale;
 	private JLabel titleLabel;
+	private JPanel upperBar;
 	
 	public RichProjectionPanel(ProjectionModel model, String text) {
 		
@@ -28,16 +31,28 @@ public class RichProjectionPanel extends JPanel {
 		
 		colorscale = createColorScale(model);
 		
-		JPanel upperBar = new JPanel();
-		upperBar.setLayout(new GridLayout(1,2));
+		upperBar = new JPanel();
 		
 		titleLabel = new JLabel();
 		titleLabel.setOpaque(true);
 		titleLabel.setText(text);
 		titleLabel.setFont(new Font(null, Font.BOLD, fontSize));
 		
-		upperBar.add(titleLabel);
-		upperBar.add(colorscale);
+		GroupLayout layout = new GroupLayout(upperBar);
+		
+		GroupLayout.ParallelGroup vGroup = layout.createParallelGroup();
+		vGroup.addComponent(titleLabel).
+		addComponent(colorscale);
+		layout.setVerticalGroup(vGroup);
+		
+		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+		hGroup.addComponent(titleLabel).
+		addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
+                GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).
+		addComponent(colorscale);
+		layout.setHorizontalGroup(hGroup);
+		
+		upperBar.setLayout(layout);
 		
 		this.setLayout(new BorderLayout(0, verticalGap));
 		
@@ -60,6 +75,9 @@ public class RichProjectionPanel extends JPanel {
 		ColorScalePanel colorscale = new ColorScalePanel(null);
 		colorscale.setColorTable(model.getColorTable());
 		colorscale.setBackground(getBackground());
+		colorscale.setPreferredSize(new Dimension(150, 15));
+		colorscale.setMaximumSize(new Dimension(150, 15));
+		colorscale.setMinimumSize(new Dimension(150, 15));
 		
 		return colorscale;
 	}
@@ -80,6 +98,10 @@ public class RichProjectionPanel extends JPanel {
 		if (this.titleLabel != null) {
 			
 			this.titleLabel.setBackground(bg);
+		}
+		if (upperBar != null) {
+			
+			this.upperBar.setBackground(bg);
 		}
 	}
 }

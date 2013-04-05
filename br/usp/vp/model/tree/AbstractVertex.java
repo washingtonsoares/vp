@@ -1,9 +1,11 @@
 package br.usp.vp.model.tree;
 
+import br.usp.vp.view.tree.Thumbnail;
+
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 
-public class AbstractVertex extends mxCell {
+public abstract class AbstractVertex extends mxCell {
 
 	private static final long serialVersionUID = -5008917739710606556L;
 
@@ -21,6 +23,8 @@ public class AbstractVertex extends mxCell {
 	public static final String CURRENT_STYLE = 
 			STYLE_TEMPLATE + "fillColor=#E69400";
 	
+	protected Thumbnail thumbnail;
+	
 	public AbstractVertex(Integer id) {
 		
 		super();
@@ -35,5 +39,21 @@ public class AbstractVertex extends mxCell {
 		this.setStyle(CURRENT_STYLE);
 		this.setVertex(true);
 		this.setConnectable(true);
+	}
+	
+	public Thumbnail getThumbnail() {
+		
+		if (thumbnail == null) {
+			
+			createThumbnail();
+		}
+		return thumbnail;
+	}
+	
+	public abstract void createThumbnail();
+
+	@Override
+	public String toString() {
+		return "AbstractVertex [id=" + id + ", value=" + value + "]";
 	}
 }
