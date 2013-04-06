@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import br.usp.vp.controller.Controller;
+import br.usp.vp.controller.ControllerHandle;
 
 public class ToolBar extends JPanel {
 
@@ -23,20 +23,18 @@ public class ToolBar extends JPanel {
 
 		this.setLayout(new FlowLayout(FlowLayout.LEADING));
 		
+		// Holder for buttons
 		this.toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-
-		initComponents();
 		
+		// Add buttons
+		addreprojectItemsButton();
+		
+		// Add tool bar to pane
 		this.add(toolBar);
 	}
 	
-	private void initComponents() {
-		
-		addProjectSubsetButton();
-	}
-	
-	private void addProjectSubsetButton() {
+	private void addreprojectItemsButton() {
 
 		ToolButton projectSubset = new ToolButton("Project Subset");
 		
@@ -45,7 +43,7 @@ public class ToolBar extends JPanel {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				
-				Controller.reprojectItems();
+				ControllerHandle.getInstance().reprojectItems();
 			}
 		});
 

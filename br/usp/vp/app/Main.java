@@ -1,6 +1,10 @@
 package br.usp.vp.app;
 
-import br.usp.vp.controller.Controller;
+import javax.swing.JFrame;
+
+import matrix.AbstractMatrix;
+
+import br.usp.vp.controller.ControllerHandle;
 import br.usp.vp.view.MainView;
 
 public class Main {
@@ -8,12 +12,19 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 
 		MainView view = new MainView();
-		
-		new Controller();
-		Controller.loadData(DataSets.iris);
-		Controller.init(view.getTopPanel(),view.getMiddlePanel(), view.getBottomPanel());
-		
-//		view.setExtendedState(view.getExtendedState()|JFrame.MAXIMIZED_BOTH);
+		view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		view.pack();
 		view.setVisible(true);
+		
+		ControllerHandle.getInstance().initView(
+				view.getTopPanel(),
+				view.getMiddlePanel(), 
+				view.getBottomPanel());
+		
+		AbstractMatrix dataMatrix = ControllerHandle.getInstance().
+				loadData(DataSets.iris);
+		
+		ControllerHandle.getInstance().initModels(dataMatrix);
+		ControllerHandle.getInstance().attachModelsToView();
 	}
 }

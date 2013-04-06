@@ -45,12 +45,12 @@ public abstract class AbstractVertex extends mxCell {
 		
 		if (thumbnail == null) {
 			
-			createThumbnail();
+			initThumbnail();
 		}
 		return thumbnail;
 	}
 	
-	public abstract void createThumbnail();
+	public abstract void initThumbnail();
 
 	@Override
 	public String toString() {

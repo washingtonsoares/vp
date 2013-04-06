@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import br.usp.vp.controller.Controller;
+import br.usp.vp.controller.ControllerHandle;
 import br.usp.vp.model.tree.InteractionsTree;
 
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
@@ -113,7 +113,7 @@ public class TreeComponent extends mxGraphComponent implements ComponentListener
 				if (((mxCell) cell).isVertex()) {
 
 					Integer value = (Integer) getGraph().getModel().getValue(cell);
-					Controller.changeContextTo(value);
+					ControllerHandle.getInstance().changeContextTo(value);
 				}
 			}
 		}
@@ -122,7 +122,6 @@ public class TreeComponent extends mxGraphComponent implements ComponentListener
 	@Override
 	public void componentResized(ComponentEvent e) {
 
-		System.out.println(getSize());
 		layoutGraph();
 	}
 

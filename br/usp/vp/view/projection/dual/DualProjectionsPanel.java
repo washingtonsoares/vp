@@ -25,7 +25,7 @@ public class DualProjectionsPanel extends JPanel {
 		this.setLayout(new GridLayout(1,2));
 	}
 	
-	public void setProjections(DualProjections dualProjections) {
+	public void attach(DualProjections dualProjections) {
 		
 		itemsPanel = createProjectionPanel(dualProjections.getItemsModel(),
 				"Items Projection");

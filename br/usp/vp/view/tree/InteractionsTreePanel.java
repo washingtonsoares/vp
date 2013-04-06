@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
 import br.usp.vp.model.tree.AbstractVertex;
@@ -18,14 +18,16 @@ import br.usp.vp.model.tree.InteractionsTree;
 
 import com.mxgraph.model.mxCell;
 
-public class InteractionsTreePanel extends JPanel implements MouseMotionListener {
+public class InteractionsTreePanel extends JPanel implements MouseMotionListener,
+	MouseListener{
 
 	private static final long serialVersionUID = 1L;
 	private static final int fontSize = 12;
-	private static final int gap = 15;
 
 	private static final int X_PAD = 50;
 	private static final int Y_PAD = 0;
+	
+	private static final int GAP = 10;
 	
 	private TreeComponent component;
 	private JLabel titleLabel;
@@ -37,52 +39,59 @@ public class InteractionsTreePanel extends JPanel implements MouseMotionListener
 
 	private boolean stillOnVertex = false;
 	
-	public InteractionsTreePanel(InteractionsTree tree) {
+	public InteractionsTreePanel() {
 
 		super();
 
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		this.setBorder(new EmptyBorder(gap, gap, gap, gap));
+		this.setBorder(new EmptyBorder(GAP, GAP, GAP, GAP));
+		this.addMouseMotionListener(this); 
+		this.addMouseListener(this);
 
 		// Title Label
 		titleLabel = new JLabel("Interactions Tree");
 		titleLabel.setOpaque(true);
 		titleLabel.setFont(new Font(null, Font.BOLD, fontSize));
-
+		
+		layeredPane = new JLayeredPane();
+		
+		this.add(layeredPane);
+	}
+	
+	public void attach(InteractionsTree tree) {
+		
 		// Tree Component
-		component = new TreeComponent(tree);
+		component = new TreeComponent(tree); 
+		component.getGraphControl().addMouseMotionListener(this); 
+		component.getGraphControl().addMouseListener(this);
+		component.setBounds(this.getBounds());
 
 		// Thumb nails
-		vertexThumbnail = createThumbnail();
-		edgeThumbnail = createThumbnail();
+		vertexThumbnail = createThumbnailSlot();
+		edgeThumbnail = createThumbnailSlot();
 
 		// Compose Layered Panel
-		layeredPane = new JLayeredPane();
-		component.getGraphControl().addMouseMotionListener(this); 
-		this.addMouseMotionListener(this); 
-
-		JViewport temp = component.getViewport();
-		temp.setBounds(10, 20, 700, 300);
-		layeredPane.add(temp, new Integer(0));
-
+		layeredPane.add(component, new Integer(0));
 		layeredPane.add(vertexThumbnail, new Integer(1));
 		layeredPane.add(edgeThumbnail, new Integer(1));
 
-		this.add(layeredPane);
+		this.setBackground(getBackground());
+		
+		this.revalidate();
 	}
 
 	public TreeComponent getComponent() {
 		return component;
 	}
 
-	private JPanel createThumbnail() {
+	private JPanel createThumbnailSlot() {
 
-		JPanel thumb = new JPanel();
-		thumb.setLayout(new GridLayout(1,1));
-		thumb.setVisible(false);
-		thumb.setBounds(15, 15, Thumbnail.WIDTH, Thumbnail.HEIGHT);
+		JPanel slot = new JPanel();
+		slot.setLayout(new GridLayout(1,1));
+		slot.setVisible(false);
+		slot.setBounds(0, 0, Thumbnail.WIDTH, Thumbnail.HEIGHT);
 
-		return thumb;
+		return slot;
 	}
 
 	@Override
@@ -152,5 +161,37 @@ public class InteractionsTreePanel extends JPanel implements MouseMotionListener
 			
 			edgeThumbnail.setVisible(false);
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
+		vertexThumbnail.setVisible(false);
+		edgeThumbnail.setVisible(false);
+		stillOnVertex = false;
 	}
 }

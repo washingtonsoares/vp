@@ -24,8 +24,11 @@ public class DPVertex extends AbstractVertex {
 		return dualProjections;
 	}
 	
-	public void createThumbnail() {
+	public void initThumbnail() {
 		
-		thumbnail = new Thumbnail(dualPanel);
+		if (thumbnail == null) {
+			
+			thumbnail = new Thumbnail(dualPanel);
+		}
 	}
 }

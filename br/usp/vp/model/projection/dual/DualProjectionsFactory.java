@@ -36,8 +36,6 @@ public class DualProjectionsFactory {
 			
 			System.err.println("ERROR: " + e.getMessage());
 		}
-		// Set scalar as stress
-
 		return new DualProjections(itemsProj, dimsProj);
 	}
 }
