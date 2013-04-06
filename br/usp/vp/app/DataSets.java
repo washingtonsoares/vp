@@ -12,6 +12,7 @@ public class DataSets {
 	public static String diabetes = pexFolder + "diabetes.data";
 	public static String messages4 = pexFolder + "messages4.data";
 
+	public static String irisCSV = micFolder + "Iris.csv";
 	public static String mlb = micFolder + "MLB2008.csv";
 	public static String who = micFolder + "WHO.csv";
 	public static String Spellman = micFolder + "Spellman.csv";

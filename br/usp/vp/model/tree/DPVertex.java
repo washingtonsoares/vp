@@ -1,6 +1,6 @@
 package br.usp.vp.model.tree;
 
-import br.usp.vp.model.projection.dual.DualProjections;
+import br.usp.vp.model.projection.DualProjections;
 import br.usp.vp.view.projection.dual.DualProjectionsPanel;
 import br.usp.vp.view.tree.Thumbnail;
 
@@ -16,15 +16,20 @@ public class DPVertex extends AbstractVertex {
 		
 		super(id);
 		
-		this.dualPanel = dualPanel;
 		this.dualProjections = dualProjections;
+		this.dualPanel = dualPanel;
 	}
 
 	public DualProjections getDualProjections() {
 		return dualProjections;
 	}
 	
-	public void initThumbnail() {
+	public DualProjectionsPanel getDualPanel() {
+		return dualPanel;
+	}
+
+	@Override
+	public void createThumbnail() {
 		
 		if (thumbnail == null) {
 			

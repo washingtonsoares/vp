@@ -12,9 +12,9 @@ import matrix.MatrixFactory;
 import matrix.dense.DenseMatrix;
 import projection.model.ProjectionModel;
 import visualizationbasics.model.AbstractInstance;
-import br.usp.vp.matrix.DataMatrix;
-import br.usp.vp.model.projection.dual.DualProjections;
-import br.usp.vp.model.projection.dual.DualProjectionsFactory;
+import br.usp.vp.model.data.DataMatrix;
+import br.usp.vp.model.projection.DualProjections;
+import br.usp.vp.model.projection.DualProjectionsFactory;
 import br.usp.vp.model.tree.DPVertex;
 import br.usp.vp.model.tree.InteractionsTree;
 import br.usp.vp.view.misc.ToolBar;
@@ -27,13 +27,14 @@ public class Controller {
 	private AbstractMatrix dataMatrix;
 	
 	// Models
-	private DualProjections dualProjections;
 	private InteractionsTree tree;
 	
 	// Views
 	private ToolBar toolBar;
-	private DualProjectionsPanel dualPanel;
 	private InteractionsTreePanel treePanel;
+	
+	// Dual Panel Slot
+	private JPanel dualPanelSlot;
 	
 	public void initView(JPanel toolbarSlot, JPanel dualPanelSlot,
 			JPanel treePanelSlot) {
@@ -44,11 +45,9 @@ public class Controller {
 		toolbarSlot.validate();
 		
 		// Dual panel
-		dualPanel = new DualProjectionsPanel();
-		dualPanel.setBackground(Color.WHITE);
-		dualPanelSlot.add(dualPanel);
-		dualPanelSlot.validate();
+		this.dualPanelSlot = dualPanelSlot;
 		
+		// Tree panel
 		treePanel = new InteractionsTreePanel();
 		treePanel.setBackground(Color.WHITE);
 		treePanelSlot.add(treePanel);
@@ -58,32 +57,49 @@ public class Controller {
 	public void initModels(AbstractMatrix dataMatrix) {
 		
 		this.dataMatrix = dataMatrix;
-		dualProjections = DualProjectionsFactory.getInstance(dataMatrix);
+		
 		tree = new InteractionsTree();
-	}
-	
-	public void attachModelsToView() {
-		
-		dualPanel.attach(dualProjections);
 		treePanel.attach(tree);
+		treePanel.revalidate();
 		
-		addVertexToTree(dualProjections);
+		addVertexToTree(DualProjectionsFactory.getInstance(dataMatrix));
 	}
 	
-	private void addVertexToTree(DualProjections dualProjection) {
+	public void addVertexToTree(DualProjections dualProjections) {
 		
-		DPVertex newVertex = new DPVertex(
-				tree.getGraph().getNumVertices() + 1, dualProjections, dualPanel);
+		// Create new vertex
+		DualProjectionsPanel dualPanel = createDualPanel(dualProjections);
+		DPVertex newVertex = new DPVertex(tree.getGraph().getNumVertices() + 1,
+				dualProjections, dualPanel);
+		
+		setCurrentProjection(newVertex);
+		
 		tree.addNewVertex(newVertex);
 		treePanel.getComponent().layoutGraph();
 		treePanel.revalidate();
 	}
 	
-	public void changeContextTo(Integer value) {
+	private DualProjectionsPanel createDualPanel(DualProjections dualProjections) {
+		
+		DualProjectionsPanel dualPanel = new DualProjectionsPanel();
+		dualPanel.setBackground(Color.WHITE);
+		dualPanel.attach(dualProjections);
+
+		return dualPanel;
+	}
+	
+	private void setCurrentProjection(DPVertex vertex) {
+		
+		dualPanelSlot.removeAll();
+		dualPanelSlot.add(vertex.getDualPanel());
+		dualPanelSlot.revalidate();
+		dualPanelSlot.repaint();
+	}
+	
+	public void changeContextToVertex(Integer value) {
 		
 		DPVertex newCurrent = (DPVertex) tree.getVertexAt(value - 1);
-		this.dualProjections = newCurrent.getDualProjections();
-		dualPanel.attach(newCurrent.getDualProjections());
+		setCurrentProjection(newCurrent);
 		tree.setCurrentVertex(newCurrent, true);
 	}
 	
@@ -100,15 +116,8 @@ public class Controller {
 		if (selectedData != null) {
 			
 			// Create and add new projections
-			addNewProjections(DualProjectionsFactory.getInstance(selectedData));
+			addVertexToTree((DualProjectionsFactory.getInstance(selectedData)));
 		}
-	}
-	
-	private void addNewProjections(DualProjections newProjections) {
-		
-		this.dualProjections = newProjections;
-		dualPanel.attach(newProjections);
-		addVertexToTree(dualProjections);
 	}
 	
 	private AbstractMatrix getSelectedData(ArrayList<AbstractInstance> selected) {
@@ -126,10 +135,12 @@ public class Controller {
 			AbstractVector row = dataMatrix.getRow(id);
 			selectedData.addRow(row);
 		}
+		selectedData.setAttributes(dataMatrix.getAttributes());
+		
 		return selectedData;
 	}
 	
-	public AbstractMatrix loadDataCSV(String filename, Integer labelIndex, 
+	public AbstractMatrix loadData(String filename, Integer labelIndex, 
 			Integer[] ignoreIndices) throws IOException {
 		
 		DataMatrix data = new DataMatrix(filename, labelIndex, ignoreIndices);

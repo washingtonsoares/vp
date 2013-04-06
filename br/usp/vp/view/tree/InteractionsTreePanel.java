@@ -53,6 +53,10 @@ public class InteractionsTreePanel extends JPanel implements MouseMotionListener
 		titleLabel.setOpaque(true);
 		titleLabel.setFont(new Font(null, Font.BOLD, fontSize));
 		
+		// Thumb nails
+		vertexThumbnail = createThumbnailSlot();
+		edgeThumbnail = createThumbnailSlot();
+		
 		layeredPane = new JLayeredPane();
 		
 		this.add(layeredPane);
@@ -65,10 +69,6 @@ public class InteractionsTreePanel extends JPanel implements MouseMotionListener
 		component.getGraphControl().addMouseMotionListener(this); 
 		component.getGraphControl().addMouseListener(this);
 		component.setBounds(this.getBounds());
-
-		// Thumb nails
-		vertexThumbnail = createThumbnailSlot();
-		edgeThumbnail = createThumbnailSlot();
 
 		// Compose Layered Panel
 		layeredPane.add(component, new Integer(0));

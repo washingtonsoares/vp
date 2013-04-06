@@ -113,7 +113,7 @@ public class TreeComponent extends mxGraphComponent implements ComponentListener
 				if (((mxCell) cell).isVertex()) {
 
 					Integer value = (Integer) getGraph().getModel().getValue(cell);
-					ControllerHandle.getInstance().changeContextTo(value);
+					ControllerHandle.getInstance().changeContextToVertex(value);
 				}
 			}
 		}

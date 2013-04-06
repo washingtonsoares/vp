@@ -25,6 +25,5 @@ public class Main {
 				loadData(DataSets.iris);
 		
 		ControllerHandle.getInstance().initModels(dataMatrix);
-		ControllerHandle.getInstance().attachModelsToView();
 	}
 }

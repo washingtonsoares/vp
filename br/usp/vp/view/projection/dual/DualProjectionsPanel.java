@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import projection.model.ProjectionModel;
 import projection.view.selection.InstanceSelection;
-import br.usp.vp.model.projection.dual.DualProjections;
+import br.usp.vp.model.projection.DualProjections;
 import br.usp.vp.view.projection.RichProjectionPanel;
 
 public class DualProjectionsPanel extends JPanel {
@@ -34,10 +34,8 @@ public class DualProjectionsPanel extends JPanel {
 		
 		this.removeAll();
 		
-		add(itemsPanel);
-		add(dimsPanel);
-		
-		this.revalidate();
+		this.add(itemsPanel);
+		this.add(dimsPanel);
 	}
 	
 	private RichProjectionPanel createProjectionPanel(ProjectionModel projModel, 
