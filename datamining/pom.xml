@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.usp.icmc.vicg.vp</groupId>
+  <artifactId>datamining</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0</version>
+  <name>datamining</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+        <groupId>br.usp.icmc.vicg.vp</groupId>
+        <artifactId>distance</artifactId>
+        <version>1.0</version>
+    </dependency>
+    <dependency>
+        <groupId>br.usp.icmc.vicg.vp</groupId>
+        <artifactId>matrix</artifactId>
+        <version>1.0</version>
+    </dependency>
+  </dependencies>
+  <properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+</project>
