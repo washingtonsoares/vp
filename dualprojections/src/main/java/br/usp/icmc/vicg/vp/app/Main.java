@@ -8,7 +8,6 @@ import projection.model.ProjectionModel.InstanceType;
 import projection.technique.Projection;
 import projection.technique.mds.ClassicalMDSProjection;
 import projection.view.ProjectionFrameComp;
-import vispipelinebasics.exception.VisPipelineException;
 import br.usp.icmc.vicg.vp.controller.ControllerHandle;
 import br.usp.icmc.vicg.vp.model.util.DataLoader;
 import br.usp.icmc.vicg.vp.view.MainView;
