@@ -15,6 +15,14 @@ public class DataSet {
 		this.classIndex = classIndex;
 		this.ignoreIndices = ignoreIndices;
 	}
+	
+	public DataSet(String filename) {
+		
+		this.filename = filename;
+		this.labelIndex = null;
+		this.classIndex = null;
+		this.ignoreIndices = new Integer[]{};
+	}
 
 	public String getFilename() {
 		return filename;

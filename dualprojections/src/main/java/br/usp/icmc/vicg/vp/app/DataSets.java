@@ -17,11 +17,11 @@ public class DataSets {
 	public static String microWith = micFolder + "MicrobiomeWithMetadata.csv";
 	
 	public static DataSet iris = new DataSet(
-			uciFolder + "Iris.csv", null, 4, new Integer[]{});
+			uciFolder + "Iris.csv", null, 4, new Integer[]{4});
 	
 	public static DataSet wine = new DataSet(
-			uciFolder + "wine.csv", null, 13, new Integer[]{});
+			uciFolder + "wine.csv", null, 13, new Integer[]{13});
 	
 	public static DataSet mlb = new DataSet(
-			micFolder + "MLB2008.csv", 0, 2, new Integer[]{0,1});
+			micFolder + "MLB2008.csv", 0, 2, new Integer[]{0,1,2});
 }

@@ -57,7 +57,7 @@ public class DataMatrix extends DenseMatrix {
 
 	private boolean isIndexValid(Integer index) {
 
-		if (index.equals(classIndex) || ignoreIndices.contains(index)) {
+		if (ignoreIndices.contains(index)) {
 
 			return false;
 		}

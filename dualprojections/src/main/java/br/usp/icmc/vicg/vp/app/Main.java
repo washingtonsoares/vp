@@ -16,7 +16,7 @@ import distance.dissimilarity.Euclidean;
 
 public class Main {
 
-	public static void main2(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
 		MainView view = new MainView();
 		view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,13 +27,21 @@ public class Main {
 				view.getTopPanel(),
 				view.getMiddlePanel(), 
 				view.getBottomPanel());
-
-		AbstractMatrix dataMatrix = DataLoader.loadData(DataSets.iris);
-
+		
+		AbstractMatrix dataMatrix = null;
+		if (args.length > 0) {
+		
+			dataMatrix = DataLoader.loadData(new DataSet(args[0]));
+		}
+		else {
+			
+			dataMatrix = DataLoader.loadData(DataSets.iris);
+		}
+		
 		ControllerHandle.getInstance().attachData(dataMatrix, false);
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main2(String[] args) throws Exception {
 
 		AbstractMatrix dataMatrix = DataLoader.loadData(DataSets.iris);
 
