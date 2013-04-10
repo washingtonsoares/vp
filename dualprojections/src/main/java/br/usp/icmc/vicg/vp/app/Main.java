@@ -35,7 +35,7 @@ public class Main {
 		}
 		else {
 			
-			dataMatrix = DataLoader.loadData(DataSets.iris);
+			dataMatrix = DataLoader.loadData(DataSets.wine);
 		}
 		
 		ControllerHandle.getInstance().attachData(dataMatrix, false);
