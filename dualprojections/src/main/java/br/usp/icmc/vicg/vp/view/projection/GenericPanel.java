@@ -8,14 +8,9 @@ import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import projection.model.ProjectionModel;
@@ -26,7 +21,8 @@ import visualizationbasics.view.ModelViewer;
 public class GenericPanel extends JPanel implements ModelViewer {
 	
 	private static final long serialVersionUID = 1L;
-	private static final int padding = 60;
+	
+	protected static final int PADDING = 60;
 	
 	protected AbstractModel model;
 	private ArrayList<AbstractCoordinator> coordinators;
@@ -45,20 +41,43 @@ public class GenericPanel extends JPanel implements ModelViewer {
 		this.setBackground(java.awt.Color.WHITE);
 		
 		viewport = new Rectangle();
-		reshapeViewport();
 		
-		this.addComponentListener(new ComponentAdapter() {
-
-			@Override
-			public void componentResized(ComponentEvent arg0) {
-				
-				reshapeViewport();
-				updateImage();
-			}}
-		);
+		this.addComponentListener(new ResizeListener());
 	}
 	
-	@SuppressWarnings("all")
+	public void setModel(AbstractModel model) {
+		
+        if (this.model != null) {
+        	
+            detachFromObserver();
+        }
+
+        this.model = model;
+
+        if (model != null) {
+        	
+            attachToObserver();
+        }
+    }
+	
+	public AbstractModel getModel() {
+		
+        return model;
+    }
+	
+	public void setHighQualityRender(boolean highqualityrender) {
+
+		this.highQuality = highqualityrender;
+
+		clearImage();
+		repaint();
+	}
+	
+	public boolean getHighQualityRender() {
+
+		return highQuality;
+	}
+
 	public Container getContainer() {
 		
         return this;
@@ -126,26 +145,6 @@ public class GenericPanel extends JPanel implements ModelViewer {
 		}
 	}
 	
-	public void setModel(AbstractModel model) {
-		
-        if (this.model != null) {
-        	
-            detachFromObserver();
-        }
-
-        this.model = model;
-
-        if (model != null) {
-        	
-            attachToObserver();
-        }
-    }
-	
-	public AbstractModel getModel() {
-		
-        return model;
-    }
-	
 	private void detachFromObserver() {
 		
 		 this.model.deleteObserver(this);
@@ -177,25 +176,25 @@ public class GenericPanel extends JPanel implements ModelViewer {
         return coordinators;
     }
 	
-	private void reshapeViewport() {
+	protected void reshapeViewport() {
 		
-		int width = getSize().width - padding;
-		int height = getSize().height - padding;
+		int width = getSize().width - PADDING;
+		int height = getSize().height - PADDING;
 		
-		if (width > padding && height > padding) {
+		if (width > PADDING && height > PADDING) {
 			
-			viewport.x = padding / 2;
-			viewport.y = padding / 2;
+			viewport.x = PADDING / 2;
+			viewport.y = PADDING / 2;
 			viewport.width = width;
 			viewport.height = height;
 			// TODO: Change this to a generic fashion
 			((ProjectionModel) model).setViewport(viewport);				
 		}
 		updateImage();
-		
 	}
 
 	public void clearImage() {
+		
 		image = null;
 	}
 	
@@ -212,27 +211,12 @@ public class GenericPanel extends JPanel implements ModelViewer {
 		repaint();
 	}
 
-	public boolean getHighQualityRender() {
-
-		return highQuality;
-	}
-
-	public void setHighQualityRender(boolean highqualityrender) {
-
-		this.highQuality = highqualityrender;
-
-		clearImage();
-		repaint();
-	}
-	
-	public void saveToPngImageFile(String filename) throws IOException {
-		try {
-			Dimension size = getSize(); //get the current size of the panel
-			BufferedImage buffer = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
-			paint(buffer.getGraphics());
-			ImageIO.write(buffer, "png", new File(filename));
-		} catch (IOException ex) {
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+	class ResizeListener extends ComponentAdapter {
+		
+		@Override
+		public void componentResized(ComponentEvent arg0) {
+			
+			reshapeViewport();
 		}
 	}
 }

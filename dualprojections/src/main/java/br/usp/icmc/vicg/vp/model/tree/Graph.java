@@ -1,5 +1,6 @@
 package br.usp.icmc.vicg.vp.model.tree;
 
+
 import com.mxgraph.view.mxGraph;
 
 public class Graph extends mxGraph {

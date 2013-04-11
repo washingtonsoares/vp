@@ -13,10 +13,10 @@ public class MainView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final int width = 1000;
+	private static final int width = 700;
 	private static final int topPanelHeight= 50;
-	private static final int middlePanelHeight= 600;
-	private static final int bottomPanelHeight= 200;
+	private static final int middlePanelHeight= 400;
+	private static final int bottomPanelHeight= 150;
 	private static final int minSize = 100;
 	private static final int maxSize = Short.MAX_VALUE;
 

@@ -3,9 +3,8 @@ package br.usp.icmc.vicg.vp.view.tree;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -18,8 +17,7 @@ import br.usp.icmc.vicg.vp.model.tree.InteractionsTree;
 
 import com.mxgraph.model.mxCell;
 
-public class InteractionsTreePanel extends JPanel implements MouseMotionListener,
-	MouseListener{
+public class InteractionsTreePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static final int fontSize = 12;
@@ -39,14 +37,18 @@ public class InteractionsTreePanel extends JPanel implements MouseMotionListener
 
 	private boolean stillOnVertex = false;
 	
+	private HoverThumbnailListener htl;
+	
 	public InteractionsTreePanel() {
 
 		super();
 
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.setBorder(new EmptyBorder(GAP, GAP, GAP, GAP));
-		this.addMouseMotionListener(this); 
-		this.addMouseListener(this);
+		
+		this.htl = new HoverThumbnailListener();
+		this.addMouseMotionListener(htl); 
+		this.addMouseListener(htl);
 
 		// Title Label
 		titleLabel = new JLabel("Interactions Tree");
@@ -66,8 +68,8 @@ public class InteractionsTreePanel extends JPanel implements MouseMotionListener
 		
 		// Tree Component
 		component = new TreeComponent(tree); 
-		component.getGraphControl().addMouseMotionListener(this); 
-		component.getGraphControl().addMouseListener(this);
+		component.getGraphControl().addMouseMotionListener(htl); 
+		component.getGraphControl().addMouseListener(htl);
 		component.setBounds(this.getBounds());
 
 		// Compose Layered Panel
@@ -109,89 +111,65 @@ public class InteractionsTreePanel extends JPanel implements MouseMotionListener
 		}
 	}
 
-	@Override
-	public void mouseDragged(MouseEvent e) {}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-
-		Object cell = component.getCellAt(e.getX(), e.getY());
-
-		boolean notOverVertex = true;
-		boolean notOverEdge = true;
+	class HoverThumbnailListener extends MouseAdapter {
 		
-		if (cell != null) {
+		@Override
+		public void mouseMoved(MouseEvent e) {
 
-			// if is cell
-			if (cell instanceof mxCell) {
+			Object cell = component.getCellAt(e.getX(), e.getY());
 
-				if (((mxCell) cell).isVertex()) {
-					
-					notOverVertex = false;
+			boolean notOverVertex = true;
+			boolean notOverEdge = true;
+			
+			if (cell != null) {
 
-					if (!stillOnVertex) {
+				// if is cell
+				if (cell instanceof mxCell) {
 
-						stillOnVertex = true;
+					if (((mxCell) cell).isVertex()) {
+						
+						notOverVertex = false;
 
-						int x = (int) ((mxCell) cell).getGeometry().getX();
+						if (!stillOnVertex) {
 
-						Thumbnail vertexThumb = ((AbstractVertex) cell).getThumbnail();
+							stillOnVertex = true;
 
-						vertexThumbnail.removeAll();
-						vertexThumbnail.add(vertexThumb);
-						vertexThumbnail.setLocation(x + X_PAD, Y_PAD);
-						vertexThumbnail.setVisible(true);
-						vertexThumbnail.revalidate();
+							int x = (int) ((mxCell) cell).getGeometry().getX();
+
+							Thumbnail vertexThumb = ((AbstractVertex) cell).getThumbnail();
+
+							vertexThumbnail.removeAll();
+							vertexThumbnail.add(vertexThumb);
+							vertexThumbnail.setLocation(x + X_PAD, Y_PAD);
+							vertexThumbnail.setVisible(true);
+							vertexThumbnail.revalidate();
+						}
 					}
-				}
 
-				if (((mxCell) cell).isEdge()) {
+					if (((mxCell) cell).isEdge()) {
 
-					notOverEdge = false;
-					// TODO: do something
-				}
+						notOverEdge = false;
+						// TODO: do something
+					}
+				} 
 			} 
-		} 
-		if (notOverVertex) {
+			if (notOverVertex) {
+				
+				vertexThumbnail.setVisible(false);
+				stillOnVertex = false;
+			}
+			if (notOverEdge) {
+				
+				edgeThumbnail.setVisible(false);
+			}
+		}
+	
+		@Override
+		public void mouseExited(MouseEvent e) {
 			
 			vertexThumbnail.setVisible(false);
+			edgeThumbnail.setVisible(false);
 			stillOnVertex = false;
 		}
-		if (notOverEdge) {
-			
-			edgeThumbnail.setVisible(false);
-		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		
-		vertexThumbnail.setVisible(false);
-		edgeThumbnail.setVisible(false);
-		stillOnVertex = false;
 	}
 }

@@ -15,8 +15,8 @@ public class Thumbnail extends JPanel {
 
 	private static final long serialVersionUID = -717704078928091686L;
 	
-	public static final int WIDTH = 250;
-	public static final int HEIGHT = 150;
+	public static final int WIDTH = 240;
+	public static final int HEIGHT = 125;
 	
 	public Thumbnail(JPanel panel) {
 		

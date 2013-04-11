@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.usp.icmc.vicg.vp.app.DataSet;
 
 import matrix.AbstractVector;
 import matrix.dense.DenseMatrix;

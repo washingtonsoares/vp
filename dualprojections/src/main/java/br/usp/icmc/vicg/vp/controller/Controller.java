@@ -12,10 +12,10 @@ import projection.model.ProjectionModel;
 import visualizationbasics.model.AbstractInstance;
 import br.usp.icmc.vicg.vp.model.projection.DualProjections;
 import br.usp.icmc.vicg.vp.model.projection.DualProjectionsFactory;
-import br.usp.icmc.vicg.vp.model.tree.DPVertex;
+import br.usp.icmc.vicg.vp.model.tree.ContextVertex;
 import br.usp.icmc.vicg.vp.model.tree.InteractionsTree;
-import br.usp.icmc.vicg.vp.view.misc.ToolBar;
 import br.usp.icmc.vicg.vp.view.projection.dual.DualProjectionsPanel;
+import br.usp.icmc.vicg.vp.view.tools.ToolBar;
 import br.usp.icmc.vicg.vp.view.tree.InteractionsTreePanel;
 
 public class Controller {
@@ -70,7 +70,7 @@ public class Controller {
 		
 		// Create new vertex
 		DualProjectionsPanel dualPanel = createDualPanel(dualProjections);
-		DPVertex newVertex = new DPVertex(tree.getGraph().getNumVertices() + 1,
+		ContextVertex newVertex = new ContextVertex(tree.getGraph().getNumVertices() + 1,
 				dualProjections, dualPanel);
 		
 		setCurrentProjection(newVertex);
@@ -89,7 +89,7 @@ public class Controller {
 		return dualPanel;
 	}
 	
-	private void setCurrentProjection(DPVertex vertex) {
+	private void setCurrentProjection(ContextVertex vertex) {
 		
 		dualPanelSlot.removeAll();
 		dualPanelSlot.add(vertex.getDualPanel());
@@ -99,7 +99,7 @@ public class Controller {
 	
 	public void changeContextToVertex(Integer value) {
 		
-		DPVertex newCurrent = (DPVertex) tree.getVertexAt(value - 1);
+		ContextVertex newCurrent = (ContextVertex) tree.getVertexAt(value - 1);
 		setCurrentProjection(newCurrent);
 		tree.setCurrentVertex(newCurrent, true);
 	}
@@ -107,12 +107,11 @@ public class Controller {
 	public void reprojectItems() {
 		
 		// Get current item model
-		DPVertex vertex = (DPVertex) tree.getCurrentVertex();
+		ContextVertex vertex = (ContextVertex) tree.getCurrentVertex();
 		ProjectionModel model = vertex.getDualProjections().getItemsModel();
 		
 		// Create new data matrix
-		AbstractMatrix selectedData = getSelectedData(
-				model.getSelectedInstances());
+		AbstractMatrix selectedData = getSelectedItems(model.getSelectedInstances());
 		
 		if (selectedData != null) {
 			
@@ -122,7 +121,7 @@ public class Controller {
 		}
 	}
 	
-	private AbstractMatrix getSelectedData(ArrayList<AbstractInstance> selected) {
+	private AbstractMatrix getSelectedItems(ArrayList<AbstractInstance> selected) {
 		
 		DenseMatrix selectedData = new DenseMatrix();
 		

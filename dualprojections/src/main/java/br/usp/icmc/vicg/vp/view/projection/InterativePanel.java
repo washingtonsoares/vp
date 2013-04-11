@@ -1,14 +1,12 @@
 package br.usp.icmc.vicg.vp.view.projection;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 
 import projection.model.ProjectionInstance;
@@ -21,10 +19,10 @@ import visualizationbasics.view.selection.AbstractSelection;
 public class InterativePanel extends GenericPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// Selection
 	private AbstractSelection selection;
-	private ProjectionInstance selectedItems;
+	private ProjectionInstance selectedInstance;
 	private Polygon selectionPolygon;
 	protected Point selectionSource;
 	protected Point selectionTarget;
@@ -32,22 +30,22 @@ public class InterativePanel extends GenericPanel {
 	private boolean moveInstances;
 
 	public InterativePanel(ProjectionModel model) {
-		
+
 		super(model);
-		
+
 		this.moveInstances = true;
 
 		this.selectionColor = java.awt.Color.RED;
 
-		this.addMouseMotionListener(new MouseMotionListener());
-		this.addMouseListener(new MouseClickedListener());
+		this.addMouseListener(new Selectionistener());
+		this.addMouseMotionListener(new DragSelectionListener());
 	}
-	
+
 	public void setSelection(AbstractSelection selection) {
-		
+
 		this.selection = selection;
 	}
-	
+
 	public boolean isMoveInstances() {
 
 		return moveInstances;
@@ -60,7 +58,7 @@ public class InterativePanel extends GenericPanel {
 
 	@Override
 	public void paintComponent(java.awt.Graphics g) {
-		
+
 		super.paintComponent(g);
 
 		java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
@@ -128,44 +126,6 @@ public class InterativePanel extends GenericPanel {
 		}
 	}
 
-	public void zoomIn() {
-		
-		if (model != null) {
-			//set the new viewport
-			viewport.width = (int) (viewport.width * 1.1);
-			viewport.height = (int) (viewport.height * 1.1);
-			((ProjectionModel) model).setViewport(viewport);
-
-			//Change the size of the panel
-			Dimension size = new Dimension(viewport.getSize());
-			size.width = size.width + 2 * viewport.x;
-			size.height = size.height + 2 * viewport.y;
-			setPreferredSize(size);
-			setSize(size);
-
-			model.notifyObservers();
-		}
-	}
-
-	public void zoomOut() {
-		
-		if (model != null) {
-			//set the new viewport
-			viewport.width = (int) (viewport.width * 0.909);
-			viewport.height = (int) (viewport.height * 0.909);
-			((ProjectionModel) model).setViewport(viewport);
-
-			//Change the size of the panel
-			Dimension size = new Dimension(viewport.getSize());
-			size.width = size.width + 2 * viewport.x;
-			size.height = size.height + 2 * viewport.y;
-			setPreferredSize(size);
-			setSize(size);
-
-			model.notifyObservers();
-		}
-	}
-
 	public ArrayList<ProjectionInstance> getSelectedInstances(Polygon polygon) {
 		ArrayList<ProjectionInstance> selected = new ArrayList<ProjectionInstance>();
 
@@ -207,50 +167,41 @@ public class InterativePanel extends GenericPanel {
 			model.notifyObservers();
 		}
 	}
-	
-	class PanelComponentListener implements ComponentListener {
 
-		@Override
-		public void componentResized(ComponentEvent e) {
+	public void zoomIn() {
+
+		if (model != null) {
+			//set the new viewport
+			viewport.width = (int) (viewport.width * 1.1);
+			viewport.height = (int) (viewport.height * 1.1);
+			((ProjectionModel) model).setViewport(viewport);
 			
-			int width = getSize().width - 60;
-			int height = getSize().height - 60;
-			
-			if (width > 60 && height > 60) {
-				
-				viewport.width = width;
-				viewport.height = height;
-				((ProjectionModel) model).setViewport(viewport);				
-				updateImage();
-			}
-		}
-
-		@Override
-		public void componentMoved(ComponentEvent e) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void componentShown(ComponentEvent e) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void componentHidden(ComponentEvent e) {
-			// TODO Auto-generated method stub
+			model.notifyObservers();
 		}
 	}
 
-	class MouseMotionListener extends MouseMotionAdapter {
+	public void zoomOut() {
+
+		if (model != null) {
+			//set the new viewport
+			viewport.width = (int) (viewport.width * 0.909);
+			viewport.height = (int) (viewport.height * 0.909);
+			((ProjectionModel) model).setViewport(viewport);
+			
+			model.notifyObservers();
+		}
+	}
+
+	class DragSelectionListener extends MouseMotionAdapter {
 
 		@Override
 		public void mouseDragged(java.awt.event.MouseEvent evt) {
-			if (selectedItems != null) {
+			if (selectedInstance != null) {
 				if (model.hasSelectedInstances()) {
 					TransformationMatrix2D inv = ((ProjectionModel) model).getViewportMatrix().inverse();
 					float[] coord = inv.apply(evt.getX(), evt.getY());
-					coord[0] -= selectedItems.getX();
-					coord[1] -= selectedItems.getY();
+					coord[0] -= selectedInstance.getX();
+					coord[1] -= selectedInstance.getY();
 
 					for (AbstractInstance ai : model.getSelectedInstances()) {
 						ProjectionInstance pi = (ProjectionInstance) ai;
@@ -272,21 +223,13 @@ public class InterativePanel extends GenericPanel {
 
 	}
 
-	class MouseClickedListener extends MouseAdapter {
+	class Selectionistener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(java.awt.event.MouseEvent evt) {
 			super.mouseClicked(evt);
 
-			if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-				if (model != null) {
-					ProjectionInstance instance = ((ProjectionModel) model).getInstanceByPosition(evt.getPoint());
-					if (instance != null) {
-						model.setSelectedInstance(instance);
-						model.notifyObservers();
-					}
-				}
-			} else if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+			if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
 				cleanSelectedInstances();
 			}
 		}
@@ -298,11 +241,12 @@ public class InterativePanel extends GenericPanel {
 			if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1) {
 				if (model != null) {
 					ProjectionInstance instance = ((ProjectionModel) model).getInstanceByPosition(evt.getPoint());
-
 					if (instance != null) {
+						model.setSelectedInstance(instance);
+						model.notifyObservers();
 						if (moveInstances) {
 							if (model.getSelectedInstances().contains(instance)) {
-								selectedItems = instance;
+								selectedInstance = instance;
 							}
 						}
 					} else {
@@ -321,27 +265,50 @@ public class InterativePanel extends GenericPanel {
 
 			if (model != null) {
 				if ((selectionSource != null && selectionTarget != null) || selectionPolygon != null) {
-					ArrayList<ProjectionInstance> instances = null;
+					ArrayList<ProjectionInstance> newSelInst = null;
 
 					if (selectionPolygon != null) {
-						instances = getSelectedInstances(selectionPolygon);
+						newSelInst = getSelectedInstances(selectionPolygon);
 					} else {
-						instances = getSelectedInstances(selectionSource, selectionTarget);
+						newSelInst = getSelectedInstances(selectionSource, selectionTarget);
 					}
 
-					if (instances != null) {
+					if (newSelInst != null) {
 
 						if (selection != null) {
-							selection.selected(new ArrayList<AbstractInstance>(instances));
+							
+							ArrayList<AbstractInstance> prevSelInst = model.getSelectedInstances();
+							
+							prevSelInst.addAll(newSelInst);
+							
+							selection.selected(new ArrayList<AbstractInstance>(prevSelInst));
 						}
 					}
 				}
 			}
 
 			selectionPolygon = null;
-			selectedItems = null;
+			selectedInstance = null;
 			selectionSource = null;
 			selectionTarget = null;
+		}
+	}
+
+	class ZoomListener extends MouseAdapter {
+
+		@Override
+		public void mouseWheelMoved(MouseWheelEvent e){
+
+
+			if (e.getWheelRotation() < 0) {
+
+				zoomIn();
+				repaint();
+			} 
+			else {
+				zoomOut();
+				repaint();
+			}
 		}
 	}
 }

@@ -3,6 +3,7 @@ package br.usp.icmc.vicg.vp.model.tree;
 import java.util.ArrayList;
 
 
+
 public class InteractionsTree {
 
 	private Graph graph;
@@ -63,13 +64,13 @@ public class InteractionsTree {
 		} 
 		else {
 					
-			graph.setCellStyle(DPVertex.DEFAULT_STYLE, new Object[]{currentVertex});
+			graph.setCellStyle(ContextVertex.DEFAULT_STYLE, new Object[]{currentVertex});
 			this.currentVertex = vertex;
 		}
 		
 		if (update) {
 			
-			graph.setCellStyle(DPVertex.CURRENT_STYLE, new Object[]{vertex});
+			graph.setCellStyle(ContextVertex.CURRENT_STYLE, new Object[]{vertex});
 		}
 	}
 }

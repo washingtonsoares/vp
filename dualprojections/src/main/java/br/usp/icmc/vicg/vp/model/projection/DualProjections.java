@@ -27,7 +27,7 @@ public class DualProjections  {
 	private ProjectionModel createProjectionModel(AbstractMatrix projection) {
 
 		ProjectionModel projModel = new ProjectionModel();
-		projModel.addProjection(projection, InstanceType.CIRCLED_INSTANCE);
+		projModel.addProjection(projection, InstanceType.CIRCLED_INSTANCE, 5);
 		projModel.changeColorScaleType(ColorScaleType.ORANGE_TO_BLUESKY);
 
 		return projModel;

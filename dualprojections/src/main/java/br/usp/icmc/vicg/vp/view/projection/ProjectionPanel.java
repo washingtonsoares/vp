@@ -28,7 +28,7 @@ public class ProjectionPanel extends InterativePanel {
 		
 		this.setScalar(model);
 		
-		this.addMouseMotionListener(new MouseMotionListener());
+		this.addMouseMotionListener(new HoverLabelListener());
 	}
 	
 	public void setScalar(ProjectionModel model) {
@@ -108,13 +108,14 @@ public class ProjectionPanel extends InterativePanel {
 		}
 	}
 	
-	class MouseMotionListener extends MouseMotionAdapter {
+	class HoverLabelListener extends MouseMotionAdapter {
 		
 		@Override
 		public void mouseMoved(java.awt.event.MouseEvent evt) {
 			super.mouseMoved(evt);
 
 			if (model != null) {
+				
 				labelsItems = ((ProjectionModel) model).getInstanceByPosition(evt.getPoint());
 
 				if (labelsItems != null) {
