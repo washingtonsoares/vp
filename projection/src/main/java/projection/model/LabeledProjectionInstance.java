@@ -17,16 +17,21 @@ import visualizationbasics.affinetransformation.TransformationMatrix2D;
  */
 public class LabeledProjectionInstance extends ProjectionInstance {
 
-    public LabeledProjectionInstance(String label, int id, float x, float y) {
+    public LabeledProjectionInstance(String label, int id, float x, float y, int size) {
         super(id, x, y);
         this.label = label;
-        this.size = 4;
+        this.size = size;
+    }
+    
+    public LabeledProjectionInstance(String label, int id, float x, float y) {
+    	
+    	this(label, id, x, y, 4);
     }
 
     public LabeledProjectionInstance(String label, int id) {
         this(label, id, 0, 0);
     }
-
+    
     @Override
     public void draw(BufferedImage image, boolean highquality) {
         Graphics2D g2 = (Graphics2D) image.getGraphics();

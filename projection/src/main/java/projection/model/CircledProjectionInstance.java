@@ -14,6 +14,11 @@ import visualizationbasics.affinetransformation.TransformationMatrix2D;
  */
 public class CircledProjectionInstance extends LabeledProjectionInstance {
 
+	public CircledProjectionInstance(String label, int id, float x, float y, int size) {
+
+		super(label, id, x, y, size);
+	}
+		
     public CircledProjectionInstance(String label, int id, float x, float y) {
         super(label, id, x, y);
     }
@@ -33,7 +38,7 @@ public class CircledProjectionInstance extends LabeledProjectionInstance {
     @Override
     public void draw(BufferedImage image, boolean highquality) {
         Graphics2D g2 = (Graphics2D) image.getGraphics();
-
+        
         if (highquality) {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }

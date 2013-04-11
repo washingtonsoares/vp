@@ -88,7 +88,7 @@ public class ProjectionInstance extends AbstractInstance {
                 label = label.substring(0, 96) + "...";
             }
         }
-
+        
         java.awt.FontMetrics metrics = g2.getFontMetrics(g2.getFont());
 
         int width = metrics.stringWidth(label);
