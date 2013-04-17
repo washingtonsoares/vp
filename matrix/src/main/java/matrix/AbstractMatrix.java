@@ -107,20 +107,6 @@ public abstract class AbstractMatrix implements Cloneable {
         this.rows.set(index, vector);
     }
     
-    public void setKlass(float[] klass) throws IllegalArgumentException {
-        
-        if (klass.length != rows.size()) {
-            
-            throw new IllegalArgumentException("Arguments must have the same "
-                    + "number of rows of the matrix.");
-        }
-        
-        for (int i = 0; i < rows.size(); i++) {
-            
-            rows.get(i).setKlass(klass[i]);
-        }
-    }
-
     public AbstractVector removeRow(int index) {
         assert (rows.size() > index) : "ERROR: wrong index!";
 

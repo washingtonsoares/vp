@@ -17,6 +17,7 @@ import projection.util.ProjectionConstants;
 import visualizationbasics.affinetransformation.TransformationMatrix2D;
 import visualizationbasics.color.ColorScaleFactory.ColorScaleType;
 import visualizationbasics.color.ColorTable;
+import visualizationbasics.model.AbstractInstance;
 import visualizationbasics.model.AbstractModel;
 
 /**
@@ -63,7 +64,7 @@ public class ProjectionModel extends AbstractModel {
 		Scalar cdata = this.addScalar(ProjectionConstants.CDATA);
 
 		//        Why dots and dColor ???
-				//        Scalar dots = this.addScalar(ProjectionConstants.DOTS);
+		//        Scalar dots = this.addScalar(ProjectionConstants.DOTS);
 		//        Scalar dColor = this.addScalar(ProjectionConstants.DYNAMIC_COLOR_SCALAR);
 
 		int nrows = projection.getRowCount();
@@ -110,7 +111,7 @@ public class ProjectionModel extends AbstractModel {
 			pi.setScalarValue(cdata, row.getKlass());
 
 			//            Why dots and dColor ???
-					//            pi.setScalarValue(dots, 0.0f);
+			//            pi.setScalarValue(dots, 0.0f);
 			//            pi.setScalarValue(dColor, 0.0f);
 		}
 	}
@@ -121,7 +122,7 @@ public class ProjectionModel extends AbstractModel {
 	}
 
 	public void draw(BufferedImage image, boolean highquality) {
-		
+
 		if (image != null) {
 			//first draw the non-selected instances
 			for (int i = 0; i < instances.size(); i++) {
@@ -197,6 +198,18 @@ public class ProjectionModel extends AbstractModel {
 	public ArrayList<Scalar> getScalars() {
 		return scalars;
 	}
+	
+	public Scalar getScalar(String name) {
+		
+		for (Scalar s : scalars) {
+			
+			if (s.getName().equals(name)) {
+				
+				return s;
+			}
+		}
+		return null;
+	}
 
 	public float getAlpha() {
 		return alpha;
@@ -219,6 +232,18 @@ public class ProjectionModel extends AbstractModel {
 
 	public Scalar getSelectedScalar() {
 		return selscalar;
+	}
+
+	public Scalar addScalar(String name, ArrayList<Float> values) {
+
+		Scalar scalar = addScalar(name);
+
+		for (AbstractInstance pi : getInstances()) {
+			
+			((ProjectionInstance) pi).setScalarValue(scalar, values.get(pi.getId()));
+		}
+		
+		return scalar;
 	}
 
 	public void setSelectedScalar(Scalar scalar) {
@@ -281,15 +306,15 @@ public class ProjectionModel extends AbstractModel {
 		mat.loadIdentity();
 		mat.scale(1, -1);
 		mat.translate(-minx, maxy);
-		
+
 		// Why not scale both?
 		mat.scale(viewport.width / (maxx - minx), viewport.height / (maxy - miny));
-//		if (viewport.width > viewport.height) {
-//			mat.scale(viewport.height / (maxx - minx), viewport.height / (maxy - miny));
-//		} else {
-//			mat.scale(viewport.width / (maxx - minx), viewport.width / (maxy - miny));
-//		}
-		
+		//		if (viewport.width > viewport.height) {
+		//			mat.scale(viewport.height / (maxx - minx), viewport.height / (maxy - miny));
+		//		} else {
+		//			mat.scale(viewport.width / (maxx - minx), viewport.width / (maxy - miny));
+		//		}
+
 		mat.translate(viewport.x, viewport.y);
 
 		setChanged();
