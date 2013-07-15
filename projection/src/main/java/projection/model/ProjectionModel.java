@@ -17,7 +17,6 @@ import projection.util.ProjectionConstants;
 import visualizationbasics.affinetransformation.TransformationMatrix2D;
 import visualizationbasics.color.ColorScaleFactory.ColorScaleType;
 import visualizationbasics.color.ColorTable;
-import visualizationbasics.model.AbstractInstance;
 import visualizationbasics.model.AbstractModel;
 
 /**
@@ -238,11 +237,12 @@ public class ProjectionModel extends AbstractModel {
 
 		Scalar scalar = addScalar(name);
 
-		for (AbstractInstance pi : getInstances()) {
+		for (int i = 0; i < this.getInstances().size(); i++) {
 			
-			((ProjectionInstance) pi).setScalarValue(scalar, values.get(pi.getId()));
+			ProjectionInstance pi = (ProjectionInstance) this.getInstances().get(i);
+			pi.setScalarValue(scalar, values.get(i));
 		}
-		
+
 		return scalar;
 	}
 
