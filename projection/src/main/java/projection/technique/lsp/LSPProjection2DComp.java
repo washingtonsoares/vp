@@ -11,6 +11,8 @@ import distance.DistanceMatrix;
 import distance.dissimilarity.AbstractDissimilarity;
 import distance.dissimilarity.DissimilarityFactory;
 import distance.dissimilarity.DissimilarityFactory.DissimilarityType;
+
+import java.io.IOException;
 import java.util.List;
 import matrix.AbstractMatrix;
 import vispipelinebasics.exception.VisPipelineException;
@@ -41,7 +43,7 @@ public class LSPProjection2DComp implements AbstractComponent<LSPProjection2DCom
     @Override
     public Output execute(Input in) throws VisPipelineException {
         //projecting
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
         LSPProjection2D lsp = new LSPProjection2D();
         lsp.setFractionDelta(fractionDelta);
         lsp.setNumberIterations(numIterations);
@@ -56,10 +58,18 @@ public class LSPProjection2DComp implements AbstractComponent<LSPProjection2DCom
                 lsp.setControlPoints(in.controlPoints);
                 lsp.setControlPointsProjection(in.controlPointsProjection);
             }
-            projection = lsp.project(in.matrix, diss);
+            try {
+                projection = lsp.project(in.matrix, diss);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else { // if (dmat != null) { //using a distance matrix
             lsp.setControlPointsChoice(ControlPointsType.KMEDOIDS);
-            projection = lsp.project(in.distanceMatrix);
+            try {
+                projection = lsp.project(in.distanceMatrix);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return new Output(projection);

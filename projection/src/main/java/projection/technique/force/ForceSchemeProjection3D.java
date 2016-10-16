@@ -48,6 +48,8 @@ package projection.technique.force;
 
 import distance.DistanceMatrix;
 import distance.dissimilarity.AbstractDissimilarity;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import matrix.AbstractMatrix;
 import matrix.dense.DenseMatrix;
@@ -67,7 +69,7 @@ public class ForceSchemeProjection3D implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         if (projection == null) {
             FastmapProjection3D fastmap = new FastmapProjection3D();
             projection = fastmap.project(matrix, diss);

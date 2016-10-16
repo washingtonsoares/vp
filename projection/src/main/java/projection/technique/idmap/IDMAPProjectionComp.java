@@ -16,6 +16,8 @@ import vispipelinebasics.exception.VisPipelineException;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -42,11 +44,15 @@ public class IDMAPProjectionComp implements AbstractComponent<IDMAPProjectionCom
         idmap.setFractionDelta(fractionDelta);
         idmap.setInitialization(initializationType);
         idmap.setNumberIterations(numIterations);
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
 
         if (in.matrix != null) { //using a matrix
             AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissimilarityType);
-            projection = idmap.project(in.matrix, diss);
+            try {
+                projection = idmap.project(in.matrix, diss);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else { // if (dmat != null) { //using a distance matri
             projection = idmap.project(in.distanceMatrix);
         }

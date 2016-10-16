@@ -15,6 +15,8 @@ import vispipelinebasics.exception.VisPipelineException;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -36,14 +38,18 @@ public class SammonMappingProjectionComp implements AbstractComponent<SammonMapp
     public Output execute(Input in) throws VisPipelineException {
         //projecting
         SammonMappingProjection sammon = new SammonMappingProjection();
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
 
         sammon.setMagicFactor(magicFactor);
         sammon.setNumberIterations(numIterations);
 
         if (in.matrix != null) { //using a matrix
             AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissimilarityType);
-            projection = sammon.project(in.matrix, diss);
+            try {
+                projection = sammon.project(in.matrix, diss);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else { // if (dmat != null) { //using a distance matrix
             projection = sammon.project(in.distanceMatrix);
         }

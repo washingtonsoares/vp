@@ -46,6 +46,7 @@ address = {Washington, DC, USA},
  * ***** END LICENSE BLOCK ***** */
 package projection.technique.nnp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import distance.DistanceMatrix;
 import distance.dissimilarity.AbstractDissimilarity;
@@ -62,7 +63,7 @@ import projection.technique.Projection;
 public class NearestNeighborProjection implements Projection {
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         DistanceMatrix dmat = new DistanceMatrix(matrix, diss);
         return project(dmat);
     }

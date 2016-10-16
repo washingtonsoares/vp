@@ -53,6 +53,8 @@ import matrix.AbstractMatrix;
 import projection.technique.Projection;
 import projection.technique.fastmap.FastmapProjection;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -60,7 +62,7 @@ import projection.technique.fastmap.FastmapProjection;
 public class SammonMappingProjection implements Projection {
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         DistanceMatrix dmat = new DistanceMatrix(matrix, diss);
         return project(dmat);
     }

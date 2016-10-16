@@ -14,6 +14,8 @@ import vispipelinebasics.interfaces.AbstractComponent;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando
@@ -36,7 +38,12 @@ public class LandmarksISOMAPProjectionComp implements AbstractComponent<Landmark
         lisomap.setNumberNeighbors(numNeighbors);
 
         AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissimilarityType);
-        return new Output(lisomap.project(in.matrix, diss));
+        try {
+            return new Output(lisomap.project(in.matrix, diss));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static class Input implements InputInterface {

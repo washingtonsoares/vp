@@ -52,6 +52,8 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.impl.SparseDoubleMatrix2D;
 import cern.colt.matrix.linalg.Algebra;
 import cern.colt.matrix.linalg.EigenvalueDecomposition;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import distance.DistanceMatrix;
 import projection.technique.Projection;
@@ -77,7 +79,7 @@ public class LLEProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         KNN knn = new KNN(numNeighbors);
         Pair[][] neighbors = knn.execute(matrix, diss);
 

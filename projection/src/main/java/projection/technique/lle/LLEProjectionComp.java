@@ -16,6 +16,8 @@ import vispipelinebasics.exception.VisPipelineException;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -43,11 +45,15 @@ public class LLEProjectionComp implements AbstractComponent<LLEProjectionComp.In
         //projecting
         LLEProjection lle = new LLEProjection();
         lle.setNumberNeighbors(numNeighbors);
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
 
         if (in.matrix != null) { //using a matrix
             AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissimilarityType);
-            projection = lle.project(in.matrix, diss);
+            try {
+                projection = lle.project(in.matrix, diss);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else { // if (dmat != null) { //using a distance matrix
             projection = lle.project(in.distanceMatrix);
         }

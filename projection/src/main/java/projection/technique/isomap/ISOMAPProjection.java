@@ -57,6 +57,8 @@ import matrix.AbstractMatrix;
 import matrix.dense.DenseMatrix;
 import projection.util.ConnectedGraphGenerator;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -70,7 +72,7 @@ public class ISOMAPProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         //the new distance matrix
         DistanceMatrix new_dmat = new DistanceMatrix(matrix.getRowCount());
         new_dmat.setIds(matrix.getIds());
@@ -105,7 +107,7 @@ public class ISOMAPProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(DistanceMatrix dmat) {
+    public AbstractMatrix project(DistanceMatrix dmat) throws IOException {
         //the new distance matrix
         DistanceMatrix new_dmat = new DistanceMatrix(dmat.getElementCount());
         new_dmat.setIds(dmat.getIds());

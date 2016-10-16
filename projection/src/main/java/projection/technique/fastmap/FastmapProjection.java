@@ -48,6 +48,8 @@ package projection.technique.fastmap;
 
 import distance.DistanceMatrix;
 import distance.dissimilarity.AbstractDissimilarity;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,7 +74,7 @@ public class FastmapProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         DistanceMatrix dmat = new DistanceMatrix(matrix, diss);
         return project(dmat);
     }

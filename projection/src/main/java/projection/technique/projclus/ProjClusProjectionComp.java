@@ -16,6 +16,8 @@ import vispipelinebasics.exception.VisPipelineException;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -41,7 +43,7 @@ public class ProjClusProjectionComp implements AbstractComponent<ProjClusProject
     public Output execute(Input in) throws VisPipelineException {
         //projecting
         ProjClusProjection projclus = new ProjClusProjection();
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
         projclus.setFractionDelta(fractionDelta);
         projclus.setInitialization(initializationType);
         projclus.setNumberIterations(numIterations);
@@ -49,9 +51,17 @@ public class ProjClusProjectionComp implements AbstractComponent<ProjClusProject
 
         if (in.matrix != null) { //using a matrix
             AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissimilarityType);
-            projection = projclus.project(in.matrix, diss);
+            try {
+                projection = projclus.project(in.matrix, diss);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else { // if (dmat != null) { //using a distance matrix
-            projection = projclus.project(in.distanceMatrix);
+            try {
+                projection = projclus.project(in.distanceMatrix);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return new Output(projection);

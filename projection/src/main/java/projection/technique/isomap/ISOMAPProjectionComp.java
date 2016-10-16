@@ -15,6 +15,8 @@ import vispipelinebasics.exception.VisPipelineException;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -35,13 +37,21 @@ public class ISOMAPProjectionComp implements AbstractComponent<ISOMAPProjectionC
         //projecting
         ISOMAPProjection isomap = new ISOMAPProjection();
         isomap.setNumberNeighbors(numNeighbors);
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
 
         if (in.matrix != null) { //using a matrix
             AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissimilarityType);
-            projection = isomap.project(in.matrix, diss);
+            try {
+                projection = isomap.project(in.matrix, diss);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else { // if (dmat != null) { //using a distance matrix
-            projection = isomap.project(in.distanceMatrix);
+            try {
+                projection = isomap.project(in.distanceMatrix);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return new Output(projection);

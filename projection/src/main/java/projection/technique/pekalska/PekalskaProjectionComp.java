@@ -14,6 +14,8 @@ import vispipelinebasics.interfaces.AbstractComponent;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author PC
@@ -30,9 +32,13 @@ public class PekalskaProjectionComp implements AbstractComponent<PekalskaProject
     @Override
     public Output execute(Input in) throws VisPipelineException {
         PekalskaProjection rapidsammon = new PekalskaProjection();
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
         AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissmiliarityType);
-        projection = rapidsammon.project(in.matrix, diss);
+        try {
+            projection = rapidsammon.project(in.matrix, diss);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new Output(projection);
     }
 

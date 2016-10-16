@@ -10,6 +10,8 @@ import cern.colt.matrix.linalg.LUDecomposition;
 import cern.colt.matrix.linalg.Property;
 import distance.DistanceMatrix;
 import distance.dissimilarity.AbstractDissimilarity;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -33,7 +35,7 @@ public class PekalskaProjection implements Projection {
     private AbstractMatrix sampleproj;
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         long start = System.currentTimeMillis();
 
         //create the sample distance matrix
@@ -145,7 +147,7 @@ public class PekalskaProjection implements Projection {
     }
 
     private AbstractMatrix projectSampleData(AbstractMatrix sampledata,
-            AbstractDissimilarity diss) {
+            AbstractDissimilarity diss) throws IOException {
         DistanceMatrix sampledmat = new DistanceMatrix(sampledata, diss);
         SammonMappingProjection sammon = new SammonMappingProjection();
         sammon.setNumberIterations(sampledmat.getElementCount());

@@ -8,6 +8,8 @@ import datamining.neighbors.ANN;
 import datamining.neighbors.Pair;
 import distance.DistanceMatrix;
 import distance.dissimilarity.AbstractDissimilarity;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,7 +44,7 @@ public class LandmarksISOMAPProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         long start = System.currentTimeMillis();
 
         int size = matrix.getRowCount();

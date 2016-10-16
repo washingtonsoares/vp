@@ -53,6 +53,8 @@ import distance.dissimilarity.AbstractDissimilarity;
 import matrix.AbstractMatrix;
 import projection.technique.Projection;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -60,7 +62,7 @@ import projection.technique.Projection;
 public class PCAProjection implements Projection {
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         PCA pca = new PCA(2);
         return pca.reduce(matrix, diss);
     }

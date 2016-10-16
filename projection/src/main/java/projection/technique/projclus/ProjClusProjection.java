@@ -46,6 +46,7 @@ address = {Washington, DC, USA},
  * ***** END LICENSE BLOCK ***** */
 package projection.technique.projclus;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -77,7 +78,7 @@ public class ProjClusProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         long start = System.currentTimeMillis();
 
         ArrayList<AbstractMatrix> projections = new ArrayList<AbstractMatrix>();
@@ -171,7 +172,7 @@ public class ProjClusProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(DistanceMatrix dmat) {
+    public AbstractMatrix project(DistanceMatrix dmat) throws IOException {
         //The clusters projections
         ArrayList<AbstractMatrix> projections = new ArrayList<AbstractMatrix>();
 
@@ -383,7 +384,7 @@ public class ProjClusProjection implements Projection {
         }
     }
 
-    private AbstractMatrix createPivotsProjection(AbstractMatrix pivots, AbstractDissimilarity diss) {
+    private AbstractMatrix createPivotsProjection(AbstractMatrix pivots, AbstractDissimilarity diss) throws IOException {
         DistanceMatrix dmat = new DistanceMatrix(pivots, diss);
 
         IDMAPProjection idmap = new IDMAPProjection();
@@ -398,7 +399,7 @@ public class ProjClusProjection implements Projection {
     }
 
     private DistanceMatrix createDistanceMatrix(AbstractMatrix matrix,
-            ArrayList<Integer> cluster, AbstractDissimilarity diss) {
+            ArrayList<Integer> cluster, AbstractDissimilarity diss) throws IOException {
         //Create the new points matrix
         AbstractMatrix nMatrix = MatrixFactory.getInstance(matrix.getClass());
 

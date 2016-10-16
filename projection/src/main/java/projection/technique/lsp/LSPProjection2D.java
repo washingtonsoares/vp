@@ -277,7 +277,7 @@ public class LSPProjection2D implements Projection {
         this.nriterations = nriterations;
     }
 
-    protected AbstractMatrix projectControlPoints(DistanceMatrix dmat_cp) {
+    protected AbstractMatrix projectControlPoints(DistanceMatrix dmat_cp) throws IOException {
         IDMAPProjection idmap = new IDMAPProjection();
         idmap.setFractionDelta(fracdelta);
         idmap.setNumberIterations(nriterations);

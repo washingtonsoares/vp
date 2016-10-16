@@ -14,6 +14,8 @@ import vispipelinebasics.interfaces.AbstractComponent;
 import vispipelinebasics.interfaces.InputInterface;
 import vispipelinebasics.interfaces.OutputInterface;
 
+import java.io.IOException;
+
 /**
  *
  * @author Fernando Vieira Paulovich
@@ -30,9 +32,13 @@ public class PCAProjectionComp implements AbstractComponent<PCAProjectionComp.In
     @Override
     public Output execute(Input in) throws VisPipelineException {
         PCAProjection pcaproj = new PCAProjection();
-        AbstractMatrix projection;
+        AbstractMatrix projection = null;
         AbstractDissimilarity diss = DissimilarityFactory.getInstance(dissimilarityType);
-        projection = pcaproj.project(in.matrix, diss);
+        try {
+            projection = pcaproj.project(in.matrix, diss);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new Output(projection);
     }
 
