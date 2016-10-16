@@ -46,30 +46,32 @@ address = {Washington, DC, USA},
  * ***** END LICENSE BLOCK ***** */
 package projection.technique.lsp;
 
-import projection.util.MeshGenerator;
-import cern.colt.matrix.DoubleMatrix2D;
-import cern.colt.matrix.impl.SparseDoubleMatrix2D;
-import cern.colt.matrix.linalg.CholeskyDecomposition;
 import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import cern.colt.matrix.DoubleMatrix2D;
+import cern.colt.matrix.impl.SparseDoubleMatrix2D;
+import cern.colt.matrix.linalg.CholeskyDecomposition;
 import lspsolver.Solver;
 import distance.DistanceMatrix;
-import projection.technique.Projection;
-import projection.technique.idmap.IDMAPProjection;
+import distance.dissimilarity.AbstractDissimilarity;
 import datamining.neighbors.ANN;
 import datamining.neighbors.KNN;
 import datamining.neighbors.Pair;
 import datamining.clustering.BKmeans;
 import datamining.clustering.Kmedoids;
-import distance.dissimilarity.AbstractDissimilarity;
-import java.util.List;
 import matrix.AbstractMatrix;
 import matrix.AbstractVector;
 import matrix.MatrixFactory;
 import matrix.dense.DenseMatrix;
 import matrix.dense.DenseVector;
+
+import projection.technique.Projection;
+import projection.technique.idmap.IDMAPProjection;
+import projection.util.MeshGenerator;
 
 /**
  *
@@ -111,7 +113,7 @@ public class LSPProjection2D implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         long start = System.currentTimeMillis();
 
         //creating the initial clusters (necessary to create the NNG)
@@ -154,7 +156,7 @@ public class LSPProjection2D implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(DistanceMatrix dmat) {
+    public AbstractMatrix project(DistanceMatrix dmat) throws IOException {
         //Choosen the control points
         if (type == ControlPointsType.KMEDOIDS) {
             Kmedoids kmedois = new Kmedoids(nrcontrolpoints);
@@ -499,7 +501,7 @@ public class LSPProjection2D implements Projection {
     }
 
     private int[] getControlPoints(BKmeans bkmeans,
-            ArrayList<ArrayList<Integer>> clusters, AbstractMatrix matrix) {
+            ArrayList<ArrayList<Integer>> clusters, AbstractMatrix matrix) throws IOException {
         int[] localcp = null;
 
         if (type == ControlPointsType.KMEANS) {

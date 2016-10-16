@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: br.usp.icmc.vicg.vp:visualizationbasics:1.0" level="project" />
+    <orderEntry type="library" name="Maven: br.usp.icmc.vicg.vp:vispipelinebasics:1.0" level="project" />
+    <orderEntry type="library" name="Maven: br.usp.icmc.vicg.vp:vispipelinecommon:1.0" level="project" />
+    <orderEntry type="library" name="Maven: br.usp.icmc.vicg.vp:matrix:1.0" level="project" />
+    <orderEntry type="library" name="Maven: br.usp.icmc.vicg.vp:datamining:1.0" level="project" />
+    <orderEntry type="library" name="Maven: mdsj:mdsj:1.0" level="project" />
+    <orderEntry type="library" name="Maven: lspsolver:lspsolver:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jfree:jfreechart:1.0.14" level="project" />
+    <orderEntry type="library" name="Maven: org.jfree:jcommon:1.0.17" level="project" />
+    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.3.04" level="project" />
+    <orderEntry type="library" name="Maven: com.lowagie:itext:2.1.5" level="project" />
+    <orderEntry type="library" name="Maven: bouncycastle:bcmail-jdk14:138" level="project" />
+    <orderEntry type="library" name="Maven: bouncycastle:bcprov-jdk14:138" level="project" />
+    <orderEntry type="library" name="Maven: jlfgr:jlfgr:1.0" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/Distance.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/DataMining.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/mdsj.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/lspsolver.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <ANNOTATIONS>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" />
+        </ANNOTATIONS>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" />
+        </JAVADOC>
+        <NATIVE>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" />
+        </NATIVE>
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" />
+        </SOURCES>
+        <jarDirectory url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" recursive="false" />
+        <jarDirectory url="jar://$MODULE_DIR$/../../libs VCS/jlfgr-1_0.jar!/" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs VCS/colt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

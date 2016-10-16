@@ -48,6 +48,8 @@ package projection.technique.idmap;
 
 import distance.DistanceMatrix;
 import distance.dissimilarity.AbstractDissimilarity;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import matrix.AbstractMatrix;
 import matrix.AbstractVector;
@@ -83,7 +85,7 @@ public class IDMAPProjection implements Projection {
     }
 
     @Override
-    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) {
+    public AbstractMatrix project(AbstractMatrix matrix, AbstractDissimilarity diss) throws IOException {
         DistanceMatrix dmat = new DistanceMatrix(matrix, diss);
         return project(dmat);
     }
