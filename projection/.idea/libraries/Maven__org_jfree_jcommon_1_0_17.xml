@@ -1,13 +1,28 @@
 <component name="libraryTable">
   <library name="Maven: org.jfree:jcommon:1.0.17">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
+    </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.17/jcommon-1.0.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/mdsj.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/lspsolver.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.17/jcommon-1.0.17-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
     </JAVADOC>
+    <NATIVE>
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
+    </NATIVE>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.17/jcommon-1.0.17-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
     </SOURCES>
+    <jarDirectory url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" recursive="false" />
+    <jarDirectory url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" recursive="false" type="SOURCES" />
   </library>
 </component>
