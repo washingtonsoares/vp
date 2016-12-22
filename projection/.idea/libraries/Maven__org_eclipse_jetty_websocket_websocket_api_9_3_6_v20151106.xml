@@ -1,20 +1,20 @@
 <component name="libraryTable">
-  <library name="Maven: org.jfree:jcommon:1.0.17">
+  <library name="Maven: org.eclipse.jetty.websocket:websocket-api:9.3.6.v20151106">
     <ANNOTATIONS>
       <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.17/jcommon-1.0.17.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-api/9.3.6.v20151106/websocket-api-9.3.6.v20151106.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.17/jcommon-1.0.17-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-api/9.3.6.v20151106/websocket-api-9.3.6.v20151106-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
     </JAVADOC>
     <NATIVE>
       <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
     </NATIVE>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0.17/jcommon-1.0.17-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-api/9.3.6.v20151106/websocket-api-9.3.6.v20151106-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../libs-vp/jlfgr-1_0.jar!/" />
     </SOURCES>
